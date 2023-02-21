@@ -24,3 +24,7 @@ yarn-error.log*
 logs
 *.log
 .npm
+idea
+.idea
+vscode
+.vscode

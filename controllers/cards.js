@@ -17,9 +17,8 @@ module.exports.createCard = (req, res) => {
         res.status(400).send({
           message: 'Переданы некорректные данные при создании карточки.',
         });
-      } else {
-        res.status(500).send({ message: err.message });
       }
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -28,7 +27,7 @@ module.exports.removeCard = (req, res) => {
     .findByIdAndRemove(req.params.cardId)
     .then((data) => {
       if (!data) {
-        return res
+        res
           .status(404)
           .send({ message: 'Карточка с указанным _id не найдена.' });
       }
@@ -39,9 +38,8 @@ module.exports.removeCard = (req, res) => {
         res
           .status(400)
           .send({ message: ' Карточка с указанным _id не найдена.' });
-      } else {
-        res.status(500).send({ message: err.message });
       }
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -54,7 +52,7 @@ module.exports.addLike = (req, res) => {
     )
     .then((data) => {
       if (data === null) {
-        return res
+        res
           .status(404)
           .send({ message: 'Передан несуществующий _id карточки.' });
       }
@@ -65,9 +63,8 @@ module.exports.addLike = (req, res) => {
         res.status(400).send({
           message: 'Переданы некорректные данные для постановки/снятии лайка.',
         });
-      } else {
-        res.status(500).send({ message: err.message });
       }
+      res.status(500).send({ message: err.message });
     });
 };
 
@@ -80,7 +77,7 @@ module.exports.removeLike = (req, res) => {
     )
     .then((data) => {
       if (data === null) {
-        return res
+        res
           .status(404)
           .send({ message: 'Передан несуществующий _id карточки' });
       }
@@ -91,8 +88,7 @@ module.exports.removeLike = (req, res) => {
         res.status(400).send({
           message: 'Переданы некорректные данные для постановки/снятии лайка.',
         });
-      } else {
-        res.status(500).send({ message: err.message });
       }
+      res.status(500).send({ message: err.message });
     });
 };
