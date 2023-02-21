@@ -1,4 +1,4 @@
-const user = require("../models/user");
+const user = require('../models/user');
 
 module.exports.getUsers = (req, res) => {
   user
@@ -13,9 +13,9 @@ module.exports.createUser = (req, res) => {
     .create({ name, about, avatar })
     .then((data) => res.send({ data }))
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         res.status(400).send({
-          message: "Переданы некорректные данные при создании пользователя",
+          message: 'Переданы некорректные данные при создании пользователя',
         });
       } else {
         res.status(500).send({ message: err.message });
@@ -30,13 +30,13 @@ module.exports.getUser = (req, res) => {
       if (data === null) {
         return res
           .status(404)
-          .send({ message: "Пользователь по указанному _id не найден" });
+          .send({ message: 'Пользователь по указанному _id не найден' });
       }
       res.send({ data });
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        res.status(400).send({ message: "Пользователь не найден" });
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: 'Пользователь не найден' });
       } else {
         res.status(500).send({ message: err.message });
       }
@@ -48,13 +48,13 @@ module.exports.updateUser = (req, res) => {
     .findByIdAndUpdate(
       req.user._id,
       { name: req.body.name, about: req.body.about },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     )
     .then((data) => res.send({ data }))
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         res.status(400).send({
-          message: "Переданы некорректные данные в методы обновления профиля",
+          message: 'Переданы некорректные данные в методы обновления профиля',
         });
       } else {
         res.status(500).send({ message: err.message });
@@ -67,13 +67,13 @@ module.exports.updateAvatar = (req, res) => {
     .findByIdAndUpdate(
       req.user._id,
       { avatar: req.body.avatar },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     )
     .then((data) => res.send({ data }))
     .catch((err) => {
-      if (err.name === "ValidationError") {
+      if (err.name === 'ValidationError') {
         res.status(400).send({
-          message: "Переданы некорректные данные при обновлении аватара.",
+          message: 'Переданы некорректные данные при обновлении аватара.',
         });
       } else {
         res.status(500).send({ message: err.message });
