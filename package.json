@@ -13,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/DenisDemenev/express-mesto-gha.git"
   },
-  "author": "",
+  "author": "Denis Demenev",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/DenisDemenev/express-mesto-gha/issues"

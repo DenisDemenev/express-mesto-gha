@@ -1,10 +1,14 @@
 const user = require('../models/user');
 
+const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
+const INTERNAL_SERVER_ERROR = 500;
+
 module.exports.getUsers = (req, res) => {
   user
     .find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: err.message }));
 };
 
 module.exports.createUser = (req, res) => {
@@ -14,12 +18,11 @@ module.exports.createUser = (req, res) => {
     .then((data) => res.send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
+        return res.status(BAD_REQUEST).send({
           message: 'Переданы некорректные данные при создании пользователя',
         });
-      } else {
-        res.status(500).send({ message: err.message });
       }
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -29,16 +32,16 @@ module.exports.getUser = (req, res) => {
     .then((data) => {
       if (!data) {
         res
-          .status(404)
+          .status(NOT_FOUND)
           .send({ message: 'Пользователь по указанному _id не найден' });
       }
       res.send({ data });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(400).send({ message: 'Пользователь не найден' });
+        res.status(BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
       }
-      res.status(500).send({ message: err.message });
+      res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -52,11 +55,11 @@ module.exports.updateUser = (req, res) => {
     .then((data) => res.send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
+        return res.status(BAD_REQUEST).send({
           message: 'Переданы некорректные данные в методы обновления профиля',
         });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -70,10 +73,10 @@ module.exports.updateAvatar = (req, res) => {
     .then((data) => res.send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(400).send({
+        return res.status(BAD_REQUEST).send({
           message: 'Переданы некорректные данные при обновлении аватара.',
         });
       }
-      res.status(500).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
     });
 };
