@@ -9,7 +9,7 @@ module.exports.getCards = (req, res) => {
   card
     .find({})
     .populate(['owner'])
-    .then((cards) => res.status(CREATED).send({ data: cards }))
+    .then((cards) => res.send({ data: cards }))
     .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: err.message }));
 };
 
@@ -17,7 +17,7 @@ module.exports.createCard = (req, res) => {
   const { name, link } = req.body;
   card
     .create({ name, link, owner: req.user._id })
-    .then((data) => res.send({ data }))
+    .then((data) => res.status(CREATED).send({ data }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(BAD_REQUEST).send({
