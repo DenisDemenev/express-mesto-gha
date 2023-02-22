@@ -8,9 +8,9 @@ const INTERNAL_SERVER_ERROR = 500;
 module.exports.getCards = (req, res) => {
   card
     .find({})
-    .populate(['owner'])
+    .populate(['owner', 'likes'])
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: err.message }));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' }));
 };
 
 module.exports.createCard = (req, res) => {
@@ -24,7 +24,7 @@ module.exports.createCard = (req, res) => {
           message: 'Переданы некорректные данные при создании карточки.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
@@ -45,7 +45,7 @@ module.exports.removeCard = (req, res) => {
           .status(BAD_REQUEST)
           .send({ message: ' Карточка с указанным _id не найдена.' });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
@@ -70,7 +70,7 @@ module.exports.addLike = (req, res) => {
           message: 'Передан несуществующий _id карточки.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
@@ -84,7 +84,7 @@ module.exports.removeLike = (req, res) => {
     .then((data) => {
       if (!data) {
         return res
-          .status(404)
+          .status(NOT_FOUND)
           .send({ message: 'Передан несуществующий _id карточки' });
       }
       return res.send({ data });
@@ -95,6 +95,6 @@ module.exports.removeLike = (req, res) => {
           message: 'Передан несуществующий _id карточки.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };

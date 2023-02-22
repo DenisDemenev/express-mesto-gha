@@ -9,7 +9,8 @@ module.exports.getUsers = (req, res) => {
   user
     .find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: err.message }));
+    .catch((err) => res.status(INTERNAL_SERVER_ERROR)
+      .send({ message: err.message }));
 };
 
 module.exports.createUser = (req, res) => {
@@ -32,17 +33,17 @@ module.exports.getUser = (req, res) => {
     .findById(req.params.userId)
     .then((data) => {
       if (!data) {
-        res
+        return res
           .status(NOT_FOUND)
           .send({ message: 'Пользователь по указанному _id не найден' });
       }
-      res.send({ data });
+      return res.send({ data });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        res.status(BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
+        return res.status(BAD_REQUEST).send({ message: 'Пользователь по указанному _id не найден' });
       }
-      res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
@@ -60,7 +61,7 @@ module.exports.updateUser = (req, res) => {
           message: 'Переданы некорректные данные в методы обновления профиля',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
@@ -78,6 +79,6 @@ module.exports.updateAvatar = (req, res) => {
           message: 'Переданы некорректные данные при обновлении аватара.',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
