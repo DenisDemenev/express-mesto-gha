@@ -9,8 +9,8 @@ module.exports.getUsers = (req, res) => {
   user
     .find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(INTERNAL_SERVER_ERROR)
-      .send({ message: err.message }));
+    .catch(() => res.status(INTERNAL_SERVER_ERROR)
+      .send({ message: 'Внутренняя ошибка сервера' }));
 };
 
 module.exports.createUser = (req, res) => {
@@ -24,7 +24,7 @@ module.exports.createUser = (req, res) => {
           message: 'Переданы некорректные данные при создании пользователя',
         });
       }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: err.message });
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: 'Внутренняя ошибка сервера' });
     });
 };
 
